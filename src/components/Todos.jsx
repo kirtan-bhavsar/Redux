@@ -4,11 +4,15 @@ import { removeTodo } from '../features/todo/todoSlice';
 
 const Todos = () => {
 
+    const dispatch = useDispatch();
     
     // return    const todos = useSelector(state => state.todos);
 
         const todos = useSelector(state => state.todos);
 
+        const handleDelete = (id) => {
+            dispatch(removeTodo({id}));
+        }
 
   return (
     <>
@@ -17,7 +21,7 @@ const Todos = () => {
         todos.map((todo) => (
         <li key={todo.id}>
             {todo.title}
-        <button>X</button>
+        <button key={todo.id} onClick={() => handleDelete(todo.id)}>X</button>
         </li>
         ))
     }
