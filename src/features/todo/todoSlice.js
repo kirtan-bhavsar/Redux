@@ -2,6 +2,12 @@ import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState = {
   todos: [{ id: 1, title: "learn redux" }],
+  currentEditingId: null,
+  isEditing: false,
+};
+
+export const getTodoById = (state, id) => {
+  return state.todos.find((todo) => todo.id === id);
 };
 
 export const todoSlice = createSlice({
@@ -23,10 +29,16 @@ export const todoSlice = createSlice({
       if (todo) {
         todo.title = action.payload.title;
       }
+      state.isEditing = false;
+    },
+    updateInitiate: (state, action) => {
+      state.isEditing = true;
+      state.currentEditingId = action.payload.id;
     },
   },
 });
 
-export const { addTodo, updateTodo, removeTodo } = todoSlice.actions;
+export const { addTodo, updateTodo, removeTodo, updateInitiate } =
+  todoSlice.actions;
 
 export default todoSlice.reducer;

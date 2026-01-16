@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeTodo } from "../features/todo/todoSlice";
+import { removeTodo,updateTodo,updateInitiate
+ } from "../features/todo/todoSlice";
 
 const Todos = () => {
+
   const dispatch = useDispatch();
-
-  const [isEditing, setIsEditing] = useState(false);
-
-  // return    const todos = useSelector(state => state.todos);
 
   const todos = useSelector((state) => state.todos);
 
   const handleDelete = (id) => {
     dispatch(removeTodo({ id }));
   };
+
+  const handleUpdate = (id) => {
+
+    dispatch(updateInitiate({id}))
+
+  }
 
   return (
     <>
@@ -35,7 +39,7 @@ const Todos = () => {
           >
             <div className="text-white">{todo.title}</div>
             <div className="actions px-5">
-              <button className="text-white bg-indigo-500 border-0 py-1 px-4 mx-2 focus:outline-none hover:bg-indigo-600 rounded text-md">
+              <button onClick={() => handleUpdate(todo.id)} className="text-white bg-indigo-500 border-0 py-1 px-4 mx-4 focus:outline-none hover:bg-indigo-600 rounded text-md">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
