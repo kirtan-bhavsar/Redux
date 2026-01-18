@@ -1,6 +1,6 @@
-import react, { useState } from "react";
+import react, { useState,useEffect } from "react";
 import { useDispatch,useSelector} from "react-redux";
-import { addTodo,getTodoById, updateTodo,updateCompleted} from "../features/todo/todoSlice";
+import { addTodo,getTodoById, updateTodo} from "../features/todo/todoSlice";
 
 const AddTodo = () => {
 
@@ -10,24 +10,28 @@ const AddTodo = () => {
 
   const isEditing = useSelector((state) => state.isEditing);
   const editingId = useSelector((state) => state.currentEditingId);
-
   const editingTodo = useSelector ((state) => getTodoById(state,editingId));
 
   // const dispatch = useDispatch();
 
   const addTodoHandler = (e) => {
 
-    if(!isEditing){
     e.preventDefault();
+
+    if(!isEditing){
     dispatch(addTodo({ title: input }));
-    setInput("");
     } else {
-      e.preventDefault();
       dispatch(updateTodo({title:input,id:editingId}));
-      setInput("");
-      dispatch(updateCompleted());
     }
+
+    setInput("");
   };
+
+  useEffect(() => {
+    if(isEditing && editingTodo){
+      setInput(editingTodo.title)
+    }
+  },[isEditing,editingTodo])
 
   return (
     <form onSubmit={addTodoHandler} className="space-x-3 mt-12">
@@ -35,8 +39,15 @@ const AddTodo = () => {
         type="text"
         className="bg-gray-800 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
         placeholder="Enter a Todo..."
-        value = {isEditing ? editingTodo.title : input}
+        value = {input}
         onChange={(e) => setInput(e.target.value)}
+        // onChange={(e) => {
+        //   if(isEditing){
+        //     return setInput(e.target.value);
+        //   } else {
+        //     return setInput(e.target.value);
+        //   }
+        // }}
       />
       <button
         type="submit"

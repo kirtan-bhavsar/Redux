@@ -15,7 +15,7 @@ const Todos = () => {
 
   const handleUpdate = (id) => {
 
-    dispatch(updateInitiate({id}))
+    dispatch(updateInitiate({id}));
 
   }
 
