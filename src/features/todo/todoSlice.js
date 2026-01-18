@@ -35,10 +35,19 @@ export const todoSlice = createSlice({
       state.isEditing = true;
       state.currentEditingId = action.payload.id;
     },
+    updateCompleted: (state, action) => {
+      state.isEditing = false;
+      state.currentEditingId = null;
+    },
   },
 });
 
-export const { addTodo, updateTodo, removeTodo, updateInitiate } =
-  todoSlice.actions;
+export const {
+  addTodo,
+  updateTodo,
+  removeTodo,
+  updateInitiate,
+  updateCompleted,
+} = todoSlice.actions;
 
 export default todoSlice.reducer;
